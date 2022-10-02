@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf8">
+        <style type="text/css" media="screen">
+            body {
+    background-color: #202124;
+    font-family: arial, sans-serif;
+    margin: 0;
+}
+
+#top {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    height: 48px;
+    margin: 8px;
+}
+
+.apps {
+    width: 36px;
+    height: 36px;
+    margin: 15px;
+    padding: 3px;
+}
+
+.apps svg:hover {
+    background-color: #353638;
+}
+
+.apps svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+    border-radius: 50%;
+    border: 8px solid transparent;
+}
+
+.auth {
+    background: #8ab4f8;
+    border: 1px solid transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #202124;
+    font-size: 13px/27px;
+    padding: 9px 23px;
+    border-radius: 4px;
+}
+
+.auth:hover {
+    background: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+.anchor {
+    color: white;
+    padding-left: 15px;
+    font-size: 13px;
+}
+
+.anchor:hover {
+    text-decoration: underline;
+}
+
+#mid {
+    height: 100%;
+}
+
+.logo {
+    display: block;
+    width: 272px;
+    margin: 98px auto 20px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    width: auto;
+    max-width: 584px;
+    margin: 0 auto;
+    border-radius: 24px;
+    border: 1px solid #5f6368;
+    padding: 0 8px 0 14px;
+}
+
+.search:hover, .search:active, .search:focus {
+    background: #353638;
+}
+
+.ic_search {
+    width: 20px;
+    height: 20px;
+    fill: #9aa0a6;
+}
+
+.search input {
+    background-color: transparent;
+    border: none;
+    color: #e8eaed;
+    width: 100%;
+    margin: 5px;
+    outline: none;
+}
+
+.search img {
+    padding: 0 5px 0 5px
+}
+
+.ic:hover {
+    cursor: pointer;
+}
+
+.ic_voice {
+    width: 24px;
+    height: 24px;
+    padding: 0 5px 0 8px
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin-top: 30px;
+}
+
+button {
+    display: inline-block;
+    font: 400 13.3333px Arial;
+    text-align: center;
+    padding: 1px 6px;
+    background-color: buttonface;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonface;
+    background-color: #303134;
+    color: #e8eaed;
+    border: 1px solid #303134;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 11px 5px;
+    padding: 0 16px;
+    line-height: 27px;
+    height: 36px;
+    min-width: 54px;
+    text-align: center;
+    cursor: pointer;
+}
+
+footer {
+    margin-top:321px;
+    background: #171717;
+    color: #9aa0a6;
+    height: 100px;
+}
+
+.country {
+    padding: 15px 30px;
+    border-bottom: 1px solid #3c4043;
+}
+
+.anchors {
+    display: flex;
+    justify-content: space-between;
+}
+
+.anchors div {
+    display: flex;
+    padding: 0 30px;
+    align-items: center;
+}
+
+.anchors div a {
+    color: #9aa0a6;
+    font-size: 14px;
+    padding: 15px;
+}
+
+.anchors div a:hover {
+    text-decoration: underline;
+}
+        </style>
+        <title>Google</title>
+    </head>
+    <body>
+        <div id="top">
+            <a class="anchor" href="https://mail.google.com/mail/?authuser=0&amp;ogbl">Почта</a>
+            <a class="anchor" href="https://www.google.ru/imghp?hl=ru&amp;authuser=0&amp;ogbl">Картинки</a>
+            <div>
+                <a class="apps" aria-label="Приложения Google" href="https://www.google.ru/intl/ru/about/products">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path>
+                    </svg>
+                </a>
+            </div>
+            <a class="auth" href="https://accounts.google.com/ServiceLogin?hl=ru&amp;passive=true&amp;continue=https://www.google.com/%3Fpccc%3D1&amp;ec=GAZAmgQ">Войти</a>
+        </div>
+        <div id="mid">
+            <img class="logo" src="img/google.png" alt="Google">
+            <div class="search">
+                <svg class="ic_search" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+                <input type="text" name="request">
+                <img class="ic" src="img/tia.png">
+                <svg class="ic ic_voice" viewBox="0 0 24 24">
+                    <path fill="#4285f4" d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path>
+                    <path fill="#34a853" d="m11 18.08h2v3.92h-2z"></path>
+                    <path fill="#fbbc04" d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path>
+                    <path fill="#ea4335" d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path></svg>
+            </div>
+            <div class="buttons">
+            <button>
+                Поиск в Google
+            </button>
+            <button>
+                Мне повезёт!
+            </button>
+            </div>
+        </div>
+        <footer>
+            <div class="country">
+                Россия
+            </div>
+            <div class="anchors">
+            <div><a href="https://about.google/?utm_source=google-RU&amp;utm_medium=referral&amp;utm_campaign=hp-footer&amp;fg=1">Всё о Google</a>
+            <a href="https://www.google.com/intl/ru_ru/ads/?subid=ww-ww-et-g-awa-a-g_hpafoot1_1!o2&amp;utm_source=google.com&amp;utm_medium=referral&amp;utm_campaign=google_hpafooter&amp;fg=1">Реклама</a>
+            <a href="https://www.google.com/services/?subid=ww-ww-et-g-awa-a-g_hpbfoot1_1!o2&amp;utm_source=google.com&amp;utm_medium=referral&amp;utm_campaign=google_hpbfooter&amp;fg=1">Для бизнеса</a>
+            <a href="https://google.com/search/howsearchworks/?fg=1"> Как работает Google Поиск </a></div>
+            <div>
+            <a href="https://policies.google.com/privacy?hl=ru&amp;fg=1">Конфиденциальность</a>
+            <a href="https://policies.google.com/terms">Условия</a>
+            <a href="#">Настройки</a>
+            </div>
+            </div>
+        </footer>
+    </body>
+</html>
