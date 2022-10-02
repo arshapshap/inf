@@ -8,7 +8,8 @@ namespace NetConsoleApp
     {
         static void Main(string[] args)
         {
-            string responseStr = File.ReadAllText(@"C:\Users\arsha\source\repos\inf 2022-2023\HttpServer\google.html");
+            string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @"\google.html";
+            string responseStr = File.ReadAllText(path);
             var httpServer = new HttpServer("http://localhost:8888/", responseStr);
         }
     }
