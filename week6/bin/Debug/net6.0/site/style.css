@@ -1,0 +1,417 @@
+body {
+    background: #171a21;
+    font-family: "Motiva Sans", Sans-serif;
+    
+}
+
+@media screen and (max-width: 1000px) {
+    .header {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    .responsive-header {
+        display: none;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+.responsive-header {
+    background: #171a21;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 20;
+    box-shadow: 0 0 7px 0 rgb(0 0 0 / 75%);
+    overflow: hidden;
+    padding: 13px 8px;
+}
+
+.responsive-menu-logo {
+    position: absolute;
+    top: 9px;
+    cursor: pointer;
+    width: 36px;
+    height: 31px;
+}
+
+.header {
+    background: #171a21;
+    background-position: center top;
+    min-width: 940px;
+    font-family: "Motiva Sans", Sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.header-content {
+    position: relative;
+    width: 940px;
+    height: 104px;
+    margin: 0px auto;
+}
+
+.logo {
+    float: left;
+    padding-top: 30px;
+    margin-right: 40px;
+    width: 176px;
+    height: 44px;
+}
+
+.menu {
+    position: absolute;
+    left: 200px;
+}
+
+.menuitem {
+    position: relative;
+    padding-top: 45px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 7px;
+    line-height: 16px;
+    float: left;
+    font-size: 14px;
+    color: #b8b6b4;
+    text-transform: uppercase;
+}
+
+.menuitem:hover, .menu2 a:hover {
+    color: #ffffff;
+}
+
+.global-actions {
+    position: absolute;
+    right: 0px;
+    top: 6px;
+    height: 21px;
+    line-height: 21px;
+    color: #b8b6b4;
+    font-size: 11px;
+    z-index: 401;
+}
+
+.global-actions-menu {
+    line-height: 24px;
+    vertical-align: top;
+    display: inline-block;
+}
+
+.global-actions-menu * {
+    vertical-align: top;
+}
+
+.installsteam-btn {
+    display: inline-block;
+    position: relative;
+    height: 21px;
+    line-height: 24px;
+    margin-right: 3px;
+}
+
+.auth {
+    font-size: 11px;
+    color: #b8b6b4;
+    padding: 7px;
+}
+
+.installsteam-btn-green .installsteam-btn-content {
+    background-color: #5c7e10;
+}
+
+.installsteam-btn-content {
+    display: inline-block;
+    padding-left: 35px;
+    padding-right: 9px;
+    background-position: 10px 5px;
+    background-image: url(https://store.cloudflare.steamstatic.com/public/shared/images/header/btn_header_installsteam_download.png?v=1);
+    background-repeat: no-repeat;
+    text-decoration: none;
+    color: #e5e4dc;
+    font-weight: normal;
+}
+
+.global-action-link {
+    color: #b8b6b4;
+    padding: 0 4px;
+}
+
+.sep {
+    color: #b8b6b4;
+    font-size: 11px;
+}
+
+.pulldown {
+    font-size: 11px;
+    color: #b8b6b4;
+	padding-left: 5px;
+	padding-right: 18px;
+	background-image: url("img/pulldown.png");
+	background-position: right center;
+	background-repeat: no-repeat;
+
+	cursor: pointer;
+}
+
+.main {
+    background-image: url(img/bg.jpg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 80px;
+    padding-bottom: 150px;
+}
+
+.auth-title {
+    color: #fff;
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: .055em;
+    font-weight: 200;
+}
+
+.auth-text1, .auth-text2, .beta-feature-text {
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    user-select: none;
+    font-size: 12px;
+    margin: 4px 0;
+}
+
+.auth-text1, .beta-feature-text {
+    color: #1999ff;
+}
+
+.auth-text2 {
+    color: #afafaf;
+}
+
+.auth-window {
+    margin-top: 32px;
+    padding: 32px 32px 25px 0;
+    background-color: #171a21;
+    width: 636px;
+    display: flex;
+    flex-direction: row;
+}
+
+.auth-window-right {
+    display: flex;
+    flex-direction: column;
+    padding: 0 32px;
+    flex: 3;
+}
+
+.auth-window-left {
+    flex: 1;
+}
+
+.input-account-name, .input-password {
+    border-radius: 2px;
+    color: white;
+    padding: 10px;
+    background-color: #32353c;
+    outline: none;
+    font-size: 15px;
+    border: 1px solid #32353c;
+    margin-bottom: 12px;
+}
+
+.remember-me {
+    display: flex;
+}
+
+.remember-me-checkbox {
+    width: 14px;
+    height: 14px;
+    padding: 3px;
+    border-radius: 2px;
+    background-color: #32353c;
+    cursor: pointer;
+}
+
+.remember-me-checkbox-svg {
+    fill: white;
+    width: 100%;
+    height: 100%;
+}
+
+.remember-me-text {
+    color: #afafaf;
+    font-size: 12px;
+    user-select: none;
+    padding-left: 6px;
+}
+
+.sign-in-button {
+    padding: 15px;
+    width: 270px;
+    margin-top: 10px;
+    position: relative;
+    background: linear-gradient(90deg, #06BFFF 0%, #2D73FF 100%);
+    border-radius: 2px;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: .03em;
+    cursor: pointer;
+    align-self: center;
+}
+
+.help-me, .show-qr-button {
+    color: #afafaf;
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+    align-self: center;
+    margin-top: 30px;
+}
+
+.help-me:hover, .show-qr-button:hover {
+    color: #E9E9E9;
+}
+
+.beta-feature-qr {
+    display: flex;
+    align-items: center;
+    padding: 8px 0px;
+}
+
+.qr-svg {
+    width: 120px;
+    fill: #afafaf;
+    height: 52px;
+}
+
+.qr-text, .join-steam-text {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #afafaf;
+    margin: 16px;
+}
+
+.learn-more-button {
+    background-color: rgba(255,255,255,.1);
+    border-radius: 2px;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    color: #fff;
+    padding: 8px 16px;
+}
+
+.footer {
+    margin: 0 275px;
+}
+
+.footer-top {
+    display: flex;
+    flex-direction: row;
+    padding-top: 48px;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    background-color: #181A21;
+}
+
+.join-steam-text {
+    font-size: 14px;
+}
+
+.pc-img {
+    text-align: center;
+    max-width: 200px;
+    width: 320px;
+    border: none;
+}
+
+.learn-more-button-footer {
+    text-align: center;
+    font-size: 14px;
+    max-width: 60%;
+    margin-top: 10px;
+    color: white;
+    text-decoration: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.learn-more-button-footer:hover {
+    text-decoration: none;
+    color: #66c0f4;
+}
+
+.join-steam-button {
+    background: transparent;
+    border: 1px solid #afafaf;
+    border-radius: 2px;
+    color: #fff;
+    padding: 15px;
+}
+
+.join-steam-button:hover {
+    border: 1px solid #fff;
+}
+
+.join-steam {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    max-width: 200px;
+}
+
+.line {
+    height: 8px;
+    border-top: 1px solid #363c44;
+}
+
+.valve-logo a img, .steam-logo img {
+    height: 25px;
+    width: auto;
+}
+
+.valve-logo {
+    float: left;
+}
+
+.steam-logo {
+    float: right;
+}
+
+.footer-text {
+    float: left;
+    margin-left: 12px;
+    color: #8F98A0;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.footer-links {
+    float: left;
+    font-weight: normal;
+    font-size: 13px;
+    margin-bottom: 50px;
+}
+
+.footer-text a, .footer-links a {
+    color: #C6D4DF;
+}
+
+.footer-text a:hover, .footer-links a:hover {
+    color: #ffffff;
+}
