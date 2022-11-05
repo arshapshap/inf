@@ -72,13 +72,12 @@ namespace HttpServer
 
         public void Insert<T>(T item)
         {
-            var values = typeof(T)
+            var properties = typeof(T)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(p => p.GetCustomAttribute(typeof(FieldDB)) != null)
-                .Select(p =>
-                    (p.GetValue(item) is string) ? $"'{p.GetValue(item)}'" : p.GetValue(item)?.ToString() ?? "");
+                .ToDictionary(p => ((FieldDB)p.GetCustomAttribute(typeof(FieldDB))).ColumnName, p => $"'{p.GetValue(item)}'");
 
-            string sqlExpression = $"INSERT INTO [dbo].[{TableName}] VALUES ({string.Join(',', values)})";
+            string sqlExpression = $"INSERT INTO [dbo].[{TableName}]({string.Join(',', properties.Keys)}) VALUES ({string.Join(',', properties.Values)})";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -94,7 +93,7 @@ namespace HttpServer
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(p => p.GetCustomAttribute(typeof(FieldDB)) != null)
                 .Select(p =>
-                    $"{p.Name.ToLower()} = {((p.GetValue(item) is string) ? $"'{p.GetValue(item)}'" : p.GetValue(item)?.ToString() ?? "")}");
+                    $"{((FieldDB)p.GetCustomAttribute(typeof(FieldDB))).ColumnName} = '{p.GetValue(item)}'");
 
             string sqlExpression = $"UPDATE [dbo].[{TableName}] SET {string.Join(',', changes)} WHERE id={id}";
 

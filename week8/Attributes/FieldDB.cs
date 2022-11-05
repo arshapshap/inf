@@ -8,5 +8,10 @@ namespace HttpServer
 {
     class FieldDB : Attribute
     {
+        public string ColumnName;
+        public FieldDB(string columnName)
+        {
+            ColumnName = columnName;
+        }
     }
 }

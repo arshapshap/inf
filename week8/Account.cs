@@ -9,9 +9,9 @@ namespace HttpServer
     class Account
     {
         public int Id { get; set; }
-        [FieldDB]
+        [FieldDB("login")]
         public string Login { get; set; }
-        [FieldDB]
+        [FieldDB("password")]
         public string Password { get; set; }
 
         public Account(int id, string login, string password) : this(login, password)

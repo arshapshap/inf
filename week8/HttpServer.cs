@@ -117,7 +117,7 @@ namespace HttpServer
 
             var controller = assembly.GetTypes()
                 .Where(t => Attribute.IsDefined(t, typeof(ApiController)) &&
-                    (t.GetCustomAttribute(typeof(ApiController)) as ApiController)?.ClassURI == controllerName)
+                    ((ApiController?)t.GetCustomAttribute(typeof(ApiController)))?.ClassURI == controllerName)
                 .FirstOrDefault();
 
             if (controller == null)
