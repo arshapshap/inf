@@ -147,16 +147,29 @@ namespace HttpServer
 
             var ret = method.Invoke(Activator.CreateInstance(controller), queryParams);
 
-            if (method == typeof(Accounts).GetMethod("SaveAccount"))
+            if (method.Name == "SaveAccount")
             {
                 response.Redirect(@"http://steampowered.com");
-                serverResponse = (new byte[0], "");
-                return true;
             }
-            if (method == typeof(Accounts).GetMethod("Login"))
+            if (method.Name == "Login")
             {
-                var cookie = new Cookie("SessionId", $"{{IsAuthorize: {(int)ret > 0}, Id={ret}}}");
+                var cookie = new Cookie("SessionId", $"IsAuthorize:{(int)ret > 0},Id:{ret}");
                 response.Cookies.Add(cookie);
+            }
+            if (method.Name == "GetAccounts")
+            {
+                var sessionIdCookie = request.Cookies.Where(cookie => cookie.Name == "SessionId").FirstOrDefault();
+                if (sessionIdCookie == null || 
+                    sessionIdCookie
+                        .Value
+                        .Split(',')
+                        .Where(s => s.Contains("IsAuthorize"))
+                        .First()
+                        .Contains("False"))
+                {
+                    serverResponse = (Encoding.UTF8.GetBytes("ERROR 401: Unauthorized."), "text/plain");
+                    return true;
+                }
             }
 
             serverResponse = (Encoding.ASCII.GetBytes(JsonSerializer.Serialize(ret)), "application/json");
