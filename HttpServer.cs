@@ -66,7 +66,7 @@ namespace HttpServer
                 HttpListenerResponse response = context.Response;
 
                 (byte[] buffer, string contentType) serverResponse;
-                if (!MethodHandler(request, response, out serverResponse))
+                if (!TryHandleMethod(request, response, out serverResponse))
                 {
                     string filePath = settings.Path + request.RawUrl.Replace("%20", " ");
                     if (!FileLoader.TryGetResponse(filePath, out serverResponse))
@@ -95,7 +95,7 @@ namespace HttpServer
             }
         }
 
-        private bool MethodHandler(HttpListenerRequest request, HttpListenerResponse response, out (byte[] buffer, string contentType) serverResponse)
+        private bool TryHandleMethod(HttpListenerRequest request, HttpListenerResponse response, out (byte[] buffer, string contentType) serverResponse)
         {
             if (request.Url.Segments.Length < 2)
             {
@@ -153,6 +153,11 @@ namespace HttpServer
                 serverResponse = (new byte[0], "");
                 return true;
             }
+            if (method == typeof(Accounts).GetMethod("Login"))
+            {
+                var cookie = new Cookie("SessionId", $"{{IsAuthorize: {(int)ret > 0}, Id={ret}}}");
+                response.Cookies.Add(cookie);
+            }
 
             serverResponse = (Encoding.ASCII.GetBytes(JsonSerializer.Serialize(ret)), "application/json");
             return true;
@@ -173,9 +178,7 @@ namespace HttpServer
         private static string GetRequestPostData(HttpListenerRequest request)
         {
             if (!request.HasEntityBody)
-            {
                 return null;
-            }
             using (Stream body = request.InputStream)
             {
                 using (var reader = new StreamReader(body, request.ContentEncoding))

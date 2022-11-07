@@ -17,6 +17,10 @@ namespace HttpServer
 
         public Account[] Select() => orm.Select<Account>();
 
+        public Account[] SelectWhere(Dictionary<string, object> conditions) => orm.SelectWhere<Account>(conditions);
+
+        public Account? Select(string login, string password) => orm.SelectWhere<Account>(new Dictionary<string, object>() { { "login", login }, { "password", password } }).FirstOrDefault();
+
         public Account? Select(int id) => orm.Select<Account>(id);
 
         public void Insert(Account account) => orm.Insert(account);

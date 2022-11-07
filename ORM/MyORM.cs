@@ -50,25 +50,34 @@ namespace HttpServer
             return result.ToArray();
         }
 
-        public T? Select<T>(int id)
+        public T[] SelectWhere<T>(Dictionary<string, object> conditions)
         {
-            T? result = default;
-            string sqlExpression = $"SELECT * FROM [dbo].[{TableName}] WHERE id = {id}";
+            var result = new List<T>();
+
+            var stringConditions = conditions.Select(c => $"{c.Key}='{c.Value}'");
+            string sqlExpression = $"SELECT * FROM [dbo].[{TableName}] WHERE {string.Join(" AND ", stringConditions)}";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
                 SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows)
                 {
-                    result = (T?)Activator.CreateInstance(typeof(T), GetValues(reader));
+                    while (reader.Read())
+                    {
+                        var newItem = Activator.CreateInstance(typeof(T), GetValues(reader));
+                        if (newItem is T item)
+                            result.Add(item);
+                    }
                 }
 
                 reader.Close();
             }
-            return result;
+            return result.ToArray();
         }
+
+        public T? Select<T>(int id) => SelectWhere<T>(new Dictionary<string, object>() { { "id", id } }).FirstOrDefault();
 
         public void Insert<T>(T item)
         {
