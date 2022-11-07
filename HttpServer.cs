@@ -69,9 +69,7 @@ namespace HttpServer
                 if (!MethodHandler(request, response, out serverResponse))
                 {
                     string filePath = settings.Path + request.RawUrl.Replace("%20", " ");
-                    bool notFoundError;
-                    serverResponse = FileLoader.GetResponse(filePath, out notFoundError);
-                    if (notFoundError)
+                    if (!FileLoader.TryGetResponse(filePath, out serverResponse))
                     {
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         Program.PrintMessage($"Ресурс не найден по следующему пути: {filePath}.");
@@ -149,7 +147,7 @@ namespace HttpServer
 
             var ret = method.Invoke(Activator.CreateInstance(controller), queryParams);
 
-            if (request.HttpMethod == "POST")
+            if (method == typeof(Accounts).GetMethod("SaveAccount"))
             {
                 response.Redirect(@"http://steampowered.com");
                 serverResponse = (new byte[0], "");

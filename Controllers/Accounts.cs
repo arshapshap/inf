@@ -16,6 +16,11 @@ namespace HttpServer
             accountDAO = new AccountDAO(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SteamDB;Integrated Security=True", "Table");
         }
 
+        [HttpPOST("login")]
+        public static bool Login(string login, string password)
+        {
+            return accountDAO.Select().Where(account => account.Login == login && account.Password == password).Any();
+        }
 
         [HttpPOST]
         public static void SaveAccount(string login, string password)
