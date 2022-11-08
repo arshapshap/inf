@@ -124,6 +124,9 @@ namespace HttpServer
                 return false;
             }
 
+            controller.GetField("Request", BindingFlags.Public | BindingFlags.Static).SetValue(null, request);
+            controller.GetField("Response", BindingFlags.Public | BindingFlags.Static).SetValue(null, response);
+
             var methodURI = (strParams.Length > 0) ? strParams[0] : "";
             var method = controller.GetMethods().Where(t => t.GetCustomAttributes(true)
                 .Any(attr => attr.GetType().Name == $"Http{request.HttpMethod}" && Regex.IsMatch(methodURI, ((HttpRequest)attr).MethodURI)))
@@ -145,32 +148,19 @@ namespace HttpServer
                                 .Select((p, i) => Convert.ChangeType(strParams[i], p.ParameterType))
                                 .ToArray();
 
-            var ret = method.Invoke(Activator.CreateInstance(controller), queryParams);
 
-            if (method.Name == "SaveAccount")
-            {
-                response.Redirect(@"http://steampowered.com");
-            }
-            if (method.Name == "Login")
-            {
-                var cookie = new Cookie("SessionId", $"IsAuthorize:{(int)ret > 0},Id:{ret}");
-                response.Cookies.Add(cookie);
-            }
-            if (method.Name == "GetAccounts")
+            if (((HttpGET)method.GetCustomAttribute(typeof(HttpGET)))?.OnlyForAuthorized == true)
             {
                 var sessionIdCookie = request.Cookies.Where(cookie => cookie.Name == "SessionId").FirstOrDefault();
-                if (sessionIdCookie == null || 
-                    sessionIdCookie
-                        .Value
-                        .Split(',')
-                        .Where(s => s.Contains("IsAuthorize"))
-                        .First()
-                        .Contains("False"))
+                if (sessionIdCookie == null ||
+                    !sessionIdCookie.Value.Contains("true"))
                 {
                     serverResponse = (Encoding.UTF8.GetBytes("ERROR 401: Unauthorized."), "text/plain");
+                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     return true;
                 }
             }
+            var ret = method.Invoke(Activator.CreateInstance(controller), queryParams);
 
             serverResponse = (Encoding.ASCII.GetBytes(JsonSerializer.Serialize(ret)), "application/json");
             return true;

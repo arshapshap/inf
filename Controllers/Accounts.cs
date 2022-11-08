@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,9 @@ namespace HttpServer
     [ApiController("accounts")]
     class Accounts
     {
+        public static HttpListenerRequest Request;
+        public static HttpListenerResponse Response;
+
         static AccountDAO accountDAO;
         static Accounts()
         {
@@ -17,19 +21,24 @@ namespace HttpServer
         }
 
         [HttpPOST]
-        public static int Login(string login, string password)
+        public static bool Login(string login, string password)
         {
             var account = accountDAO.Select(login, password);
-            if (account != null)
-                return account.Id;
+            if (account == null)
+                return false;
 
-            return -1;
+            var cookie = new Cookie("SessionId", $"IsAuthorize:true,Id={account.Id}");
+            Response.Cookies.Add(cookie);
+
+            return true;
         }
 
         [HttpPOST("save")]
         public static void SaveAccount(string login, string password)
         {
             accountDAO.Insert(new Account(login, password));
+
+            Response.Redirect(@"http://steampowered.com");
         }
 
         [HttpGET(@"\d")]
@@ -38,7 +47,14 @@ namespace HttpServer
             return accountDAO.Select(id);
         }
 
-        [HttpGET]
+        [HttpGET("info", onlyForAuthorized: true)]
+        public static Account GetAccountInfo()
+        {
+            var accountId = int.Parse(Request.Cookies.Where(cookie => cookie.Name == "Id").First().Value);
+            return GetAccountById(accountId);
+        }
+
+        [HttpGET("", onlyForAuthorized: true)]
         public static Account[] GetAccounts()
         {
             return accountDAO.Select();
