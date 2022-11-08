@@ -14,11 +14,8 @@ namespace HttpServer
         public static HttpListenerRequest Request;
         public static HttpListenerResponse Response;
 
-        static AccountDAO accountDAO;
-        static Accounts()
-        {
-            accountDAO = new AccountDAO(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SteamDB;Integrated Security=True", "Table");
-        }
+        static AccountDAO accountDAO 
+            = new AccountDAO(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SteamDB;Integrated Security=True", "Table");
 
         [HttpPOST]
         public static bool Login(string login, string password)
