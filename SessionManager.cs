@@ -25,11 +25,13 @@ namespace HttpServer
             cache = new MemoryCache(new MemoryCacheOptions());
         }
 
-        public void CreateSession(int accountId, string login)
+        public Session CreateSession(int accountId, string login)
         {
             var session = new Session(Guid.NewGuid(), accountId, login, DateTime.Now);
             var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(120));
             cache.Set(session.Guid, session, cacheEntryOptions);
+
+            return session;
         }
 
         public bool CheckSession(Guid guid) => cache.Get(guid) != null;

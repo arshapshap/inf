@@ -24,7 +24,8 @@ namespace HttpServer
             if (account == null)
                 return false;
 
-            var cookie = new Cookie("SessionId", $"IsAuthorize:true,Id={account.Id}");
+            var session = SessionManager.Instance.CreateSession(account.Id, account.Login);
+            var cookie = new Cookie("SessionId", session.Guid.ToString());
             Response.Cookies.Add(cookie);
 
             return true;
@@ -47,8 +48,9 @@ namespace HttpServer
         [HttpGET("info", onlyForAuthorized: true)]
         public static Account GetAccountInfo()
         {
-            var accountId = int.Parse(Request.Cookies.Where(cookie => cookie.Name == "Id").First().Value);
-            return GetAccountById(accountId);
+            var sessionId = Guid.Parse(Request.Cookies.Where(cookie => cookie.Name == "SessionId").First().Value);
+            var session = SessionManager.Instance.GetSession(sessionId);
+            return GetAccountById(session.AccountId);
         }
 
         [HttpGET("", onlyForAuthorized: true)]

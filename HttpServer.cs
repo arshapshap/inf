@@ -151,9 +151,9 @@ namespace HttpServer
 
             if (((HttpGET)method.GetCustomAttribute(typeof(HttpGET)))?.OnlyForAuthorized == true)
             {
-                var sessionIdCookie = request.Cookies.Where(cookie => cookie.Name == "SessionId").FirstOrDefault();
-                if (sessionIdCookie == null ||
-                    !sessionIdCookie.Value.Contains("true"))
+                var sessionCookie = request.Cookies.Where(cookie => cookie.Name == "SessionId").FirstOrDefault();
+                if (sessionCookie == null ||
+                    !SessionManager.Instance.CheckSession(Guid.Parse(sessionCookie.Value)))
                 {
                     serverResponse = (Encoding.UTF8.GetBytes("ERROR 401: Unauthorized."), "text/plain");
                     response.StatusCode = (int)HttpStatusCode.Unauthorized;
