@@ -71,6 +71,7 @@ namespace HttpServer
                     string filePath = settings.Path + request.RawUrl.Replace("%20", " ");
                     if (!FileLoader.TryGetResponse(filePath, out serverResponse))
                     {
+                        serverResponse = GetErrorServerResponse(HttpStatusCode.NotFound);
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         Program.PrintMessage($"Ресурс не найден по следующему пути: {filePath}.");
                     }
