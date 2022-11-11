@@ -131,7 +131,8 @@ namespace HttpServer
                 strParams = strParams.Skip(1).ToArray();
 
             var method = controller.GetMethods().Where(t => t.GetCustomAttributes(true)
-                .Any(attr => attr.GetType().Name == $"Http{request.HttpMethod}" && Regex.IsMatch(methodURI, ((HttpRequest)attr).MethodURI)))
+                .Any(attr => attr.GetType().Name == $"Http{request.HttpMethod}" 
+                    && Regex.IsMatch(methodURI, (((HttpRequest)attr).MethodURI == "") ? t.Name.ToLower() : ((HttpRequest)attr).MethodURI)))
                 .FirstOrDefault();
 
             if (method == null)
@@ -154,7 +155,7 @@ namespace HttpServer
                 if (sessionCookie == null ||
                     !SessionManager.Instance.CheckSession(Guid.Parse(sessionCookie.Value)))
                 {
-                    serverResponse = (Encoding.UTF8.GetBytes("ERROR 401: Unauthorized."), "text/plain");
+                    serverResponse = GetErrorServerResponse(HttpStatusCode.Unauthorized);
                     response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     return true;
                 }
@@ -178,7 +179,7 @@ namespace HttpServer
             methodResponse.action.Invoke(response);
             if (methodResponse.statusCode != HttpStatusCode.OK)
             {
-                serverResponse = (Encoding.UTF8.GetBytes($"ERROR {((int)methodResponse.statusCode)}: {methodResponse.statusCode}."), "text/plain");
+                serverResponse = GetErrorServerResponse(methodResponse.statusCode);
                 response.StatusCode = (int)methodResponse.statusCode;
                 return true;
             }
@@ -211,5 +212,8 @@ namespace HttpServer
                 }
             }
         }
+
+        private static (byte[] buffer, string contentType) GetErrorServerResponse(HttpStatusCode statusCode)
+            => (Encoding.UTF8.GetBytes($"ERROR {((int)statusCode)}: {statusCode}."), "text/plain");
     }
 }

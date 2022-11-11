@@ -8,7 +8,6 @@ namespace HttpServer
 {
     class HttpPOST : HttpRequest
     {
-        public HttpPOST(string methodURI) : base(methodURI) { }
-        public HttpPOST() : base() { }
+        public HttpPOST(string methodURI = "") : base(methodURI) { }
     }
 }

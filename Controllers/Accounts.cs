@@ -15,7 +15,7 @@ namespace HttpServer
             = new AccountDAO(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SteamDB;Integrated Security=True", "Table");
 
 
-        [HttpPOST]
+        [HttpPOST("^$")]
         public static ControllerResponse Login(string login, string password)
         {
             var account = accountDAO.Select(login, password);
@@ -43,6 +43,14 @@ namespace HttpServer
                 };
 
             return new ControllerResponse(null, redirectAction);
+        }
+
+        [HttpGET]
+        public static ControllerResponse DeleteAccount(int id)
+        {
+            accountDAO.Delete(id);
+
+            return new ControllerResponse(null);
         }
 
         [HttpGET(@"\d")]

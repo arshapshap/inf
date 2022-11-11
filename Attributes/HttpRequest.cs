@@ -13,9 +13,5 @@ namespace HttpServer
         {
             MethodURI = methodURI;
         }
-        protected HttpRequest()
-        {
-            MethodURI = "";
-        }
     }
 }
