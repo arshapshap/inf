@@ -45,14 +45,6 @@ namespace HttpServer
             return new ControllerResponse(null, redirectAction);
         }
 
-        [HttpGET]
-        public static ControllerResponse DeleteAccount(int id)
-        {
-            accountDAO.Delete(id);
-
-            return new ControllerResponse(null);
-        }
-
         [HttpGET(@"\d")]
         public ControllerResponse GetAccountById(int id)
         {
@@ -62,7 +54,7 @@ namespace HttpServer
             return new ControllerResponse(foundAccount);
         }
 
-        [HttpGET("info", onlyForAuthorized: true)]
+        [HttpGET("info", onlyForAuthorized: true, needSessionId: true)]
         public ControllerResponse GetAccountInfo(Guid sessionId)
         {
             var session = SessionManager.Instance.GetSession(sessionId);
@@ -70,7 +62,7 @@ namespace HttpServer
         }
 
         [HttpGET("^$", onlyForAuthorized: true)]
-        public ControllerResponse GetAccounts(Guid sessionId)
+        public ControllerResponse GetAccounts()
         {
             return new ControllerResponse(accountDAO.Select());
         }

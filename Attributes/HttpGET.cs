@@ -9,9 +9,11 @@ namespace HttpServer
     class HttpGET : HttpRequest
     {
         public readonly bool OnlyForAuthorized;
-        public HttpGET(string methodURI = "", bool onlyForAuthorized = false) : base(methodURI) 
+        public readonly bool NeedSessionId;
+        public HttpGET(string methodURI = "", bool onlyForAuthorized = false, bool needSessionId = false) : base(methodURI) 
         { 
             OnlyForAuthorized = onlyForAuthorized;
+            NeedSessionId = needSessionId;
         }
     }
 }
