@@ -124,9 +124,6 @@ namespace HttpServer
                 return false;
             }
 
-            controller.GetField("Request", BindingFlags.Public | BindingFlags.Static).SetValue(null, request);
-            controller.GetField("Response", BindingFlags.Public | BindingFlags.Static).SetValue(null, response);
-
             var methodURI = (strParams.Length > 0) ? strParams[0] : "";
             var method = controller.GetMethods().Where(t => t.GetCustomAttributes(true)
                 .Any(attr => attr.GetType().Name == $"Http{request.HttpMethod}" && Regex.IsMatch(methodURI, ((HttpRequest)attr).MethodURI)))
@@ -160,7 +157,7 @@ namespace HttpServer
                     return true;
                 }
             }
-            var ret = method.Invoke(Activator.CreateInstance(controller), queryParams);
+            var ret = method.Invoke(Activator.CreateInstance(controller, request, response), queryParams);
 
             serverResponse = (Encoding.ASCII.GetBytes(JsonSerializer.Serialize(ret)), "application/json");
             return true;
