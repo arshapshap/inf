@@ -18,9 +18,7 @@ namespace HttpServer
 
             if (!File.Exists(filePath))
             {
-                buffer = Encoding.UTF8.GetBytes("ERROR 404: Resource not found.");
-                contentType = "plain";
-                response = (buffer, contentType);
+                response = (Encoding.UTF8.GetBytes("ERROR 404: Resource not found."), "text/plain");
                 return false;
             }
 

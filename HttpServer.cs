@@ -97,6 +97,7 @@ namespace HttpServer
 
         private bool TryHandleMethod(HttpListenerRequest request, HttpListenerResponse response, out (byte[] buffer, string contentType) serverResponse)
         {
+            
             if (request.Url.Segments.Length < 2)
             {
                 serverResponse = (new byte[0], "");
@@ -125,6 +126,10 @@ namespace HttpServer
             }
 
             var methodURI = (strParams.Length > 0) ? strParams[0] : "";
+
+            if (methodURI != "")
+                strParams = strParams.Skip(1).ToArray();
+
             var method = controller.GetMethods().Where(t => t.GetCustomAttributes(true)
                 .Any(attr => attr.GetType().Name == $"Http{request.HttpMethod}" && Regex.IsMatch(methodURI, ((HttpRequest)attr).MethodURI)))
                 .FirstOrDefault();
@@ -141,10 +146,7 @@ namespace HttpServer
                 strParams = postData.Split('&').Select(p => p.Split('=')[1]).ToArray();
             }
 
-            object[] queryParams = method.GetParameters()
-                                .Select((p, i) => Convert.ChangeType(strParams[i], p.ParameterType))
-                                .ToArray();
-
+            object[] queryParams;
 
             if (((HttpGET)method.GetCustomAttribute(typeof(HttpGET)))?.OnlyForAuthorized == true)
             {
@@ -156,10 +158,32 @@ namespace HttpServer
                     response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     return true;
                 }
-            }
-            var ret = method.Invoke(Activator.CreateInstance(controller, request, response), queryParams);
 
-            serverResponse = (Encoding.ASCII.GetBytes(JsonSerializer.Serialize(ret)), "application/json");
+                queryParams = method.GetParameters()
+                                .Skip(1)
+                                .Select((p, i) => Convert.ChangeType(strParams[i], p.ParameterType))
+                                .ToList()
+                                .Append(Guid.Parse(sessionCookie.Value))
+                                .ToArray();
+            }
+            else
+            {
+                queryParams = method.GetParameters()
+                                .Select((p, i) => Convert.ChangeType(strParams[i], p.ParameterType))
+                                .ToArray();
+            }
+
+            var methodResponse = (ControllerResponse)method.Invoke(Activator.CreateInstance(controller), queryParams);
+
+            methodResponse.action.Invoke(response);
+            if (methodResponse.statusCode != HttpStatusCode.OK)
+            {
+                serverResponse = (Encoding.UTF8.GetBytes($"ERROR {((int)methodResponse.statusCode)}: {methodResponse.statusCode}."), "text/plain");
+                response.StatusCode = (int)methodResponse.statusCode;
+                return true;
+            }
+
+            serverResponse = (Encoding.ASCII.GetBytes(JsonSerializer.Serialize(methodResponse.response)), "application/json");
             return true;
         }
 
